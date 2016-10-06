@@ -31,22 +31,26 @@ function populateOptions (category){
 populateOptions('restaurant')
 populateOptions('hotel')
 populateOptions('activitie')
-// var restaurants;
+
+
+
+// $.get('/api/days')
+//   .then(function (data) { console.log('GET response data', data) })
+//   .catch(console.error.bind(console));
+
+$.post('/api/days')
+.then(function (data) { console.log('POST response data', data) })
+.catch(console.error.bind(console));
+
+$.get('/api/days')
+.then(function (data) { console.log('GET response data', data) })
+.catch(console.error.bind(console));
+
 // $.ajax({
-//   method: 'GET',
-//   url: '/api/restaurants',
+//   method: 'DELETE',
+//   url: '/api/days/1',
 // })
-//   .then(function (response) {
-//     response.forEach(makeOption, $restaurantSelect);
+//   .then(function (response){
+//     console.log("Destroyed!")
 //   })
-//   .catch(console.error)
-//
-// var restaurants;
-// $.ajax({
-//   method: 'GET',
-//   url: '/api/restaurants',
-// })
-//   .then(function (response) {
-//     response.forEach(makeOption, $restaurantSelect);
-//   })
-//   .catch(console.error)
+//   .catch(console.error.bind(console));
