@@ -47,7 +47,7 @@ var tripModule = (function () {
   function loadDay (day) {
     // if (this && this.blur) this.blur(); // removes focus box from buttons
     var newDay = dayModule.create(day); // dayModule
-    console.log("after");
+    // console.log("after");
     days.push(newDay);
     if (days.length === 1) {
       currentDay = newDay;
@@ -73,8 +73,21 @@ var tripModule = (function () {
     })
       .then(function (response){
         console.log("Destroyed!")
+        ajaxUpdateDay(); // MUST call this after, otherwise it may run too soon b/c of async
       })
       .catch(console.error.bind(console));
+  }
+
+  function ajaxUpdateDay() {
+    console.log("Hitting update day")
+    $.ajax({
+      method: 'PUT',
+      url: '/api/days/update-days',
+    })
+    .then(function (response) {
+      console.log("Updated!")
+    })
+    .catch(console.error.bind(console));
   }
 
   function deleteCurrentDay () {
@@ -84,10 +97,14 @@ var tripModule = (function () {
     var index = days.indexOf(currentDay),
       previousDay = days.splice(index, 1)[0],
       newCurrent = days[index] || days[index - 1];
-    ajaxDeleteDay(index);
+      console.log(currentDay);
+      console.log(previousDay, newCurrent);
+    ajaxDeleteDay(currentDay.number);
     // fix the remaining day numbers
     days.forEach(function (day, i) {
       day.setNumber(i + 1);
+      // need to save these numbers to database - ajax PUT request?
+      // console.log(day);
     });
     switchTo(newCurrent);
     previousDay.hideButton();

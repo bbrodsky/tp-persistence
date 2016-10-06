@@ -33,6 +33,33 @@ dayRouter.get("/:id", function(req, res, next) {
     .catch(next)
 })
 
+// dayRouter.put("/:number", function (req, res, next) {
+//   Day.findOne({
+//     where: {number: req.params.id}
+//   })
+//     .then (function (day) {
+//       day.number++
+//     })
+// })
+
+dayRouter.put("/update-days", function (req, res, next) {
+  // console.log('HELLO')
+  Day.findAll()
+    .then (function (days) {
+      console.log("Hello?", days);
+      days.forEach(function (day, index){
+        // console.log(index+1);
+        day.number = index + 1;
+        day.save();
+      })
+      // days.save()
+      // .then(function () {
+      //   console.log("Days were saved!")
+      // })
+    })
+    .catch(next);
+})
+
 dayRouter.delete("/:id", function(req, res, next) {
   Day.findOne({
     where:{number: req.params.id}

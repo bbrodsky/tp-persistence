@@ -32,7 +32,7 @@ Object.keys(select).forEach(e => {
 })
 
 // function ajaxNewDay(){
-  $.post('/api/days')
-  .then(function (data) { console.log('POST response data', data) })
-  .catch(console.error.bind(console));
+  // $.post('/api/days')
+  // .then(function (data) { console.log('POST response data', data) })
+  // .catch(console.error.bind(console));
 // }
