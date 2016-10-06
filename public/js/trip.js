@@ -44,6 +44,17 @@ var tripModule = (function () {
     $addButton.on('click', addDay);
     $removeButton.on('click', deleteCurrentDay);
   });
+  function loadDay (day) {
+    // if (this && this.blur) this.blur(); // removes focus box from buttons
+    var newDay = dayModule.create(day); // dayModule
+    console.log("after");
+    days.push(newDay);
+    if (days.length === 1) {
+      currentDay = newDay;
+    }
+    switchTo(newDay);
+  }
+
 
   function addDay () {
     if (this && this.blur) this.blur(); // removes focus box from buttons
@@ -55,6 +66,17 @@ var tripModule = (function () {
     switchTo(newDay);
   }
 
+  function ajaxDeleteDay(id){
+    $.ajax({
+      method: 'DELETE',
+      url: '/api/days/' + id,
+    })
+      .then(function (response){
+        console.log("Destroyed!")
+      })
+      .catch(console.error.bind(console));
+  }
+
   function deleteCurrentDay () {
     // prevent deleting last day
     if (days.length < 2 || !currentDay) return;
@@ -62,6 +84,7 @@ var tripModule = (function () {
     var index = days.indexOf(currentDay),
       previousDay = days.splice(index, 1)[0],
       newCurrent = days[index] || days[index - 1];
+    ajaxDeleteDay(index);
     // fix the remaining day numbers
     days.forEach(function (day, i) {
       day.setNumber(i + 1);
@@ -74,7 +97,17 @@ var tripModule = (function () {
 
   var publicAPI = {
 
-    load: function () {
+    load: function() {
+      $.get('/api/days')
+      .then(function (data) {
+        data.forEach(e => {
+          loadDay(e);
+        })
+      })
+      .catch(console.error.bind(console));
+    },
+
+    add: function () {
       $(addDay);
     },
 

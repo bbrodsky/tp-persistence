@@ -24,7 +24,9 @@ dayRouter.post("/", function(req, res, next) {
 })
 
 dayRouter.get("/:id", function(req, res, next) {
-  Day.findById(req.params.id)
+  Day.findOne({
+    where:{number: req.params.id}
+  })
     .then(function (day){
       res.json(day);
     })
@@ -32,7 +34,9 @@ dayRouter.get("/:id", function(req, res, next) {
 })
 
 dayRouter.delete("/:id", function(req, res, next) {
-  Day.findById(req.params.id)
+  Day.findOne({
+    where:{number: req.params.id}
+  })
     .then(function (day){
       day.destroy();
     })
@@ -44,7 +48,9 @@ dayRouter.delete("/:id", function(req, res, next) {
 
 
 dayRouter.post('/:id/:attraction', function (req, res, next) {
-  Day.findById(req.params.id)
+  Day.findOne({
+    where:{number: req.params.id}
+  })
     .then(function (day) {
       console.log(day)
     })

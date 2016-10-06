@@ -11,46 +11,28 @@ var $restaurantSelect = $optionsPanel.find('#restaurant-choices');
 var $activitySelect = $optionsPanel.find('#activity-choices');
 
 var select = {
-  hotel: $hotelSelect,
-  restaurant: $restaurantSelect,
-  activitie: $activitySelect // avoiding pluralization issues
+  "hotels": $hotelSelect,
+  "restaurants": $restaurantSelect,
+  "activities": $activitySelect // avoiding pluralization issues
 }
 
 function populateOptions (category){
   var category;
   $.ajax({
     method: 'GET',
-    url: '/api/' + category + 's',
+    url: '/api/' + category,
   })
     .then(function (response) {
       response.forEach(makeOption, select[category]);
     })
     .catch(console.error)
 }
+Object.keys(select).forEach(e => {
+  populateOptions(e);
+})
 
-populateOptions('restaurant')
-populateOptions('hotel')
-populateOptions('activitie')
-
-
-
-// $.get('/api/days')
-//   .then(function (data) { console.log('GET response data', data) })
-//   .catch(console.error.bind(console));
-
-$.post('/api/days')
-.then(function (data) { console.log('POST response data', data) })
-.catch(console.error.bind(console));
-
-$.get('/api/days')
-.then(function (data) { console.log('GET response data', data) })
-.catch(console.error.bind(console));
-
-// $.ajax({
-//   method: 'DELETE',
-//   url: '/api/days/1',
-// })
-//   .then(function (response){
-//     console.log("Destroyed!")
-//   })
-//   .catch(console.error.bind(console));
+// function ajaxNewDay(){
+  $.post('/api/days')
+  .then(function (data) { console.log('POST response data', data) })
+  .catch(console.error.bind(console));
+// }

@@ -12,9 +12,8 @@ var Day = db.define('day', {
 
 
 Day.belongsTo(Hotel);
-
 // belongs to many association requires a join table
 Day.belongsToMany(Restaurant, {through: 'day_restaurant'});
-Day.belongsToMany(Activity, {through: 'day-activity'})
+Day.belongsToMany(Activity, {through: 'day_activity'})
 
 module.exports = Day;
